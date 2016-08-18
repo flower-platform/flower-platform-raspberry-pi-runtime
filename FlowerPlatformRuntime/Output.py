@@ -1,33 +1,21 @@
 from ValueChangedEvent import ValueChangedEvent
 import RPi.GPIO as GPIO
 
-"""
-documentation of output
-"""
 class Output:
 
-    """    
-    contributesToState
-    """    
     contributesToState = False
 
-    """
-    isPwm
-    """
-    isPwm = False
-
-    """
-    pin
-    """
-    pin = None
-    
-    """    
-    onValueChanged
-    """    
     onValueChanged = None
 
-    initialValue = GPIO.LOW
-    pwm = None
+    """
+    @flowerChildParameter { ref = "pin", type = "int" }
+    @flowerChildParameter { ref = "isPwm", type = "bool" }
+    """
+    def __init__(self, pin, isPwm = False):
+        self.pin = pin
+        self.isPwm = isPwm
+        self.initialValue = GPIO.LOW
+        self.pwm = None
 
     def setup(self):
       GPIO.setmode(GPIO.BCM)
@@ -35,9 +23,6 @@ class Output:
       GPIO.output(self.pin, self.initialValue)
       self.lastValue = self.initialValue
 
-    '''
-    setValue
-    '''
     def setValue(self, value):
       if self.isPwm:
           if self.pwm is None:
@@ -56,25 +41,15 @@ class Output:
 
       self.lastValue = value
 
-
-    '''
-    getValue
-    '''
     def getValue(self):
       return self.lastValue
 
-    '''
-    toggleHighLow
-    '''
     def toggleHighLow(self):
       if self.lastValue == GPIO.HIGH:
           self.setValue(GPIO.LOW)
       else:
           self.setValue(GPIO.HIGH)
         
-    '''
-    getStateAsJson
-    '''
     def getStateAsJson(self, instanceName):
       return '"{}":{}'.format(instanceName, self.lastValue);
 

@@ -7,35 +7,22 @@ import time
 """
 class Input :
 
-    lastValue = GPIO.LOW
-    
-    lastTime = 0
-    
-    """    
-    @componentAttribute
-    """    
     contributesToState = False
 
-    """    
-    @componentHandler
-    """    
     onValueChanged = None
 
-    """
-    @componentAttribute
-    """
-    pin = None
-
-    """
-    @componentAttribute
-    """
     pollInterval = 50
-    
-    """
-    @componentAttribute
-    """
-    internalPullUp = False
 
+    """
+    @flowerChildParameter { ref = "pin", type = "int" }
+    @flowerChildParameter { ref = "internalPullUp", type = "bool" }
+    """
+    def __init__(self, pin, internalPullUp = True):
+        self.pin = pin
+        self.internalPullUp = internalPullUp
+        self.lastTime = 0
+        self.lastValue = GPIO.LOW
+    
     def setup(self) :
       GPIO.setmode(GPIO.BCM)
       if self.internalPullUp :

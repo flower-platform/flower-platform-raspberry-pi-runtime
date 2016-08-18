@@ -8,16 +8,14 @@ documentation of HTttpServer component
 """
 class HttpServer:
 
-    """    
-    documentation of onCommandReceived handler
-    """    
     onCommandReceived = None
     
-    port = 8080
-  
-    """    
-    documentation of setup method
-    """ 
+    """
+    @flowerChildParameter { ref = "port", type = "int" }
+    """
+    def __init__(self, port = 8080):
+        self.port = port
+     
     def setup(self) :
       self.server = BaseHTTPServer.HTTPServer(('', self.port), HttpRequestHandler)
       self.server.onCommandReceived = self.onCommandReceived

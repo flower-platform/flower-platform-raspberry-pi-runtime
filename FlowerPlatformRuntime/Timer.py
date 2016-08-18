@@ -15,7 +15,11 @@ class Timer :
 
     repeatCount = 0
 
-    autoStart = False   # this is also used as "started" flag
+    """
+    @flowerChildParameter { ref = "autoStart", type = "bool" }
+    """
+    def __init__(self, autoStart = False):
+        self.started = autoStart
 
     def setup(self) :
         self.currentCount = 0;
@@ -23,11 +27,11 @@ class Timer :
         return
 
     def loop(self) :
-        if (not self.autoStart) :
+        if (not self.started) :
             return
 
         if (self.repeatCount > 0 and self.currentCount > repeatCount) :
-            self.autoStart = False
+            self.started = False
             return
 
         currentTime = time.time() * 1000;
@@ -43,17 +47,17 @@ class Timer :
             if (self.repeatCount > 0 and self.currentCount == self.repeatCount) :
                 if (self.onTimerComplete != None) :
                     self.onTimerComplete(event)
-                self.autoStart = False
+                self.started = False
                 
             self.lastTimestamp = currentTime;
 
     def reset(self) :
-        self.autoStart = False
+        self.started = False
         self.currentCount = 0
 
     def start(self) : 
         self.lastTimestamp = time.time() * 1000
-        self.autoStart = True
+        self.started = True
 
     def stop(self) :
-        self.autoStart = False
+        self.started = False
